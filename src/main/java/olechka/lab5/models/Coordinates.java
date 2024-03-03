@@ -13,11 +13,11 @@ public class Coordinates {
     @HumanDescription(format = "дробное число")
     private double y; //Поле не может быть null
 
-    public double getX() {
+    public Integer getX() {
         return x;
     }
 
-    public Double getY() {
+    public double getY() {
         return y;
     }
 
