@@ -7,10 +7,11 @@ import olechka.lab5.parsing.annotations.NonNull;
 public class Coordinates {
     @BiggerThan(-47)
     @HumanDescription(format = "целое число > -47")
-    private double x; //Значение поля должно быть больше -47
     @NonNull
-    @HumanDescription(format = "целое число")
-    private Double y; //Поле не может быть null
+    private Integer x; //Значение поля должно быть больше -47
+    @NonNull
+    @HumanDescription(format = "дробное число")
+    private double y; //Поле не может быть null
 
     public double getX() {
         return x;

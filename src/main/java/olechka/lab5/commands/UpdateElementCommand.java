@@ -8,7 +8,7 @@ import olechka.lab5.parsing.ObjectParser;
 import java.util.Collection;
 
 public class UpdateElementCommand implements Command {
-    public int id;
+    public long id;
     private StudyGroup studyGroup;
 
     @Override

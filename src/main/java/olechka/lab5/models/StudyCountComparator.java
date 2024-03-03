@@ -6,6 +6,6 @@ public class StudyCountComparator implements Comparator<StudyGroup> {
 
     @Override
     public int compare(StudyGroup o1, StudyGroup o2) {
-        return o1.getStudentsCount() - o2.getStudentsCount();
+        return Long.compare(o1.getStudentsCount(), o2.getStudentsCount());
     }
 }

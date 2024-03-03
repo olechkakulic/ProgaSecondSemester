@@ -5,13 +5,13 @@ import olechka.lab5.parsing.annotations.HumanDescription;
 import olechka.lab5.parsing.annotations.IgnoreInput;
 import olechka.lab5.parsing.annotations.NonNull;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class StudyGroup implements Comparable<StudyGroup> {
     @IgnoreInput
     @NonNull
     @BiggerThan(0)
-    private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     @NonNull
     @HumanDescription(value = "имя", format = "непустая строка")
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -19,16 +19,16 @@ public class StudyGroup implements Comparable<StudyGroup> {
     @HumanDescription("координаты")
     private Coordinates coordinates; //Поле не может быть null
     @NonNull
-    @HumanDescription("дата создания группы")
+    @HumanDescription(value = "дата создания группы")
     @IgnoreInput
-    private LocalDate creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     @NonNull
     @BiggerThan(0)
     @HumanDescription(value = "количество студентов", format = "целое число > 0")
-    private Integer studentsCount; //Значение поля должно быть больше 0, Поле не может быть null
+    private Long studentsCount; //Значение поля должно быть больше 0, Поле не может быть null
     @BiggerThan(0)
     @HumanDescription(value = "количество переведенных студентов", format = "целое число > 0")
-    private int transferredStudents; //Значение поля должно быть больше 0
+    private long transferredStudents; //Значение поля должно быть больше 0
     @NonNull
     @HumanDescription("форма обучения")
     private FormOfEducation formOfEducation; //Поле не может быть null
@@ -37,16 +37,8 @@ public class StudyGroup implements Comparable<StudyGroup> {
     @HumanDescription(value = "админ группы", format = "значение может отсутствовать")
     private Person groupAdmin; //Поле может быть null
 
-    public Integer getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
     }
 
     public String getName() {
@@ -57,16 +49,24 @@ public class StudyGroup implements Comparable<StudyGroup> {
         return coordinates;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public Integer getStudentsCount() {
+    public Long getStudentsCount() {
         return studentsCount;
     }
 
-    public int getTransferredStudents() {
+    public long getTransferredStudents() {
         return transferredStudents;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     public FormOfEducation getFormOfEducation() {

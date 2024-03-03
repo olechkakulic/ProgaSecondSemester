@@ -4,6 +4,8 @@ import olechka.lab5.models.Person;
 import olechka.lab5.models.StudyGroup;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -17,7 +19,7 @@ public class State {
     private boolean isExitRequested;
 
     private String saveFileName;
-    private int lastId;
+    private long lastId;
     private Date updateDate;
     private LocalDate creationDate;
 
@@ -49,7 +51,7 @@ public class State {
         return updateDate;
     }
 
-    private int generateId() {
+    private long generateId() {
         return ++lastId;
     }
 
@@ -65,11 +67,11 @@ public class State {
         isExitRequested = true;
     }
 
-    private LocalDate generateCreationDate() {
-        long minDay = LocalDate.of(1970, 1, 1).toEpochDay();
-        long maxDay = LocalDate.of(2007, 12, 31).toEpochDay();
-        long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
-        LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
+    private LocalDateTime generateCreationDate() {
+        long minTime = LocalDateTime.of(1970, 1, 1, 0, 0).toEpochSecond(ZoneOffset.UTC);
+        long maxTime = LocalDateTime.of(2053, 1, 1, 0, 0).toEpochSecond(ZoneOffset.UTC);
+        long randomDay = ThreadLocalRandom.current().nextLong(minTime, maxTime);
+        LocalDateTime randomDate = LocalDateTime.ofEpochSecond(randomDay, 0, ZoneOffset.UTC);
         return randomDate;
     }
 

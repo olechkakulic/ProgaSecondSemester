@@ -17,7 +17,7 @@ public class PrintFieldDescendingCommand implements Command {
         Collection<StudyGroup> collection = state.getCollection();
         List<StudyGroup> studyGroupList = new ArrayList<>(collection);
         Collections.sort(studyGroupList, new StudyCountComparator());
-        List<Integer> studentsCount = new ArrayList<>();
+        List<Long> studentsCount = new ArrayList<>();
         for (StudyGroup s :
                 collection) {
             studentsCount.add(s.getStudentsCount());

@@ -57,6 +57,8 @@ public class JsonObjectParser {
                     Number number = (Number) value;
                     if (type == double.class || type == Double.class) {
                         field.set(object, number.doubleValue());
+                    } else if (type == Long.class || type == long.class) {
+                        field.set(object, number.longValue());
                     } else {
                         field.set(object, number);
                     }
