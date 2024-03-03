@@ -1,0 +1,40 @@
+[
+  {
+    "studentsCount": 777,
+    "groupAdmin": {
+      "name": "olya",
+      "weight": 5,
+      "passportID": "passport number is removed from this file due to personal data removal request",
+      "height": 173
+    },
+    "transferredStudents": 12,
+    "name": "test",
+    "coordinates": {
+      "x": 123,
+      "y": 456
+    },
+    "id": 1,
+    "formOfEducation": "EVENING_CLASSES",
+    "creationDate": "1998-09-08",
+    "semesterEnum": "FIFTH"
+  },
+  {
+    "studentsCount": 2234,
+    "groupAdmin": {
+      "birthday": "2002-12-05T12:11:::::12",
+      "name": "dsfd",
+      "weight": 234,
+      "passportID": "12345",
+      "height": 2343
+    },
+    "transferredStudents": 234,
+    "name": "sdfgfh",
+    "coordinates": {
+      "x": 45,
+      "y": 234
+    },
+    "id": 1,
+    "formOfEducation": "EVENING_CLASSES",
+    "creationDate": "1990-06-05"
+  }
+]

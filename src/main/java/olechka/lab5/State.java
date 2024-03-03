@@ -1,0 +1,101 @@
+package olechka.lab5;
+
+import olechka.lab5.models.Person;
+import olechka.lab5.models.StudyGroup;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.concurrent.ThreadLocalRandom;
+
+//содержит внутри себя объекты имеющие какие-то состояния
+public class State {
+    private final Collection<StudyGroup> collection;
+    private final Date initializationDate;
+    private final CommandManager commandManager;
+    private boolean isExitRequested;
+
+    private String saveFileName;
+    private int lastId;
+    private Date updateDate;
+    private LocalDate creationDate;
+
+    public State(String saveFileName) {
+        this.saveFileName = saveFileName;
+        collection = new LinkedHashSet<>();
+//        создаст текущую дату
+        initializationDate = new Date();
+        commandManager = new CommandManager();
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    public void notifyUpdate() {
+        updateDate = new Date();
+    }
+
+    public Collection<StudyGroup> getCollection() {
+        return collection;
+    }
+
+    public Date getInitializationDate() {
+        return initializationDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    private int generateId() {
+        return ++lastId;
+    }
+
+    public String getSaveFileName() {
+        return saveFileName;
+    }
+
+    public boolean isExitRequested() {
+        return isExitRequested;
+    }
+
+    public void setExitRequested() {
+        isExitRequested = true;
+    }
+
+    private LocalDate generateCreationDate() {
+        long minDay = LocalDate.of(1970, 1, 1).toEpochDay();
+        long maxDay = LocalDate.of(2007, 12, 31).toEpochDay();
+        long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+        LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
+        return randomDate;
+    }
+
+    public void addElement(StudyGroup studyGroup) {
+        if (studyGroup.getId() != null) {
+            if (studyGroup.getId() > lastId) {
+                lastId = studyGroup.getId();
+            }
+        } else {
+            studyGroup.setId(generateId());
+        }
+        if (studyGroup.getCreationDate() == null) {
+            studyGroup.setCreationDate(generateCreationDate());
+        }
+        collection.add(studyGroup);
+    }
+
+    public boolean hasPersonWithPassportId(String passportId) {
+        for (StudyGroup element : collection) {
+            Person elementGroupAdmin = element.getGroupAdmin();
+            if (elementGroupAdmin != null) {
+                if (elementGroupAdmin.getPassportID() != null && elementGroupAdmin.getPassportID().equals(passportId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
