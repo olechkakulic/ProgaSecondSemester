@@ -36,6 +36,6 @@ public class UpdateElementCommand implements Command {
     @Override
     public void parse(Console console) {
         id = console.nextInt();
-        this.studyGroup = ObjectParser.createFromScanner(StudyGroup.class, console, false);
+        this.studyGroup = ObjectParser.createInteractive(StudyGroup.class, console, false);
     }
 }

@@ -28,7 +28,7 @@ public class CommandManager {
      * в качестве значения - описания к командам.
      */
     private final Map<String, String> helpMap = new HashMap<>();
-    //    deque - это стек по сути.
+    //    здесь хранятся скрипты которые щас выполняются
     private final Set<String> scriptSet = new HashSet<>();
 
 

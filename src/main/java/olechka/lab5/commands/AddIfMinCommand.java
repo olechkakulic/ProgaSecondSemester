@@ -43,6 +43,6 @@ public class AddIfMinCommand implements Command {
     @Override
     public void parse(Console console) {
         console.nextLine();
-        this.studyGroup = ObjectParser.createFromScanner(StudyGroup.class, console, false);
+        this.studyGroup = ObjectParser.createInteractive(StudyGroup.class, console, false);
     }
 }

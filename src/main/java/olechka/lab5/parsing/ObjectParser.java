@@ -77,7 +77,7 @@ public class ObjectParser {
      * @return (T) function.apply(string) - return лямбда-функции в зависимости от переданного объекта класса Class
      */
     @SuppressWarnings("unchecked")
-    public static <T> T createFromScanner(Class<T> clazz, Console console, boolean allowNull) {
+    public static <T> T createInteractive(Class<T> clazz, Console console, boolean allowNull) {
         Function<String, ?> function = factories.get(clazz);
         if (function != null) {
             String string = console.nextLine();
@@ -94,21 +94,21 @@ public class ObjectParser {
         if (clazz.isEnum()) {
             console.getOut().print(Arrays.toString(clazz.getEnumConstants()) + ": ");
             //            вызов отдельной функции для работы с енамами
-            return createEnumFromScanner(clazz, console);
+            return createEnumInteractive(clazz, console);
         }
 
         try {
-            return createClassInstanceFromScanner(clazz, console, allowNull);
+            return createClassInstanceInteractive(clazz, console, allowNull);
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static <T> T createClassInstanceFromScanner(Class<T> clazz, Console console, boolean allowNull) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private static <T> T createClassInstanceInteractive(Class<T> clazz, Console console, boolean allowNull) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         if (allowNull) {
             console.getOut().print("Хотите ввести данные объекта? (да/нет) ");
 //            считываем ответ из сканера.
-            Boolean answer = createFromScanner(boolean.class, console, false);
+            Boolean answer = createInteractive(boolean.class, console, false);
             if (answer == null || answer == false) {
 //                если вернется null то он запишется в поле, если вернется false то тоже
                 return null;
@@ -142,7 +142,7 @@ public class ObjectParser {
             do {
                 try {
                     //                    рекурсивный вызов функции, получаем тип поля и уже дальше епта раскладываем по полочкам. упиваюсь гениальностью.
-                    value = createFromScanner(field.getType(), console, fieldAllowNull);
+                    value = createInteractive(field.getType(), console, fieldAllowNull);
                     //                    совершается проверка на валидность
                     validate(field, value);
                     break;
@@ -222,7 +222,7 @@ public class ObjectParser {
      * @param clazz - объект класса Class
      * @return object - объект енама
      */
-    private static <T> T createEnumFromScanner(Class<T> clazz, Console console) {
+    private static <T> T createEnumInteractive(Class<T> clazz, Console console) {
         String str = console.nextLine();
         if (str.isEmpty()) {
             return null;
