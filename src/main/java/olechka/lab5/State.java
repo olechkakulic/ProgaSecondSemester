@@ -52,7 +52,12 @@ public class State {
     }
 
     private long generateId() {
-        return ++lastId;
+        if (collection.isEmpty()) {
+            lastId = 0;
+            return ++lastId;
+        } else {
+            return ++lastId;
+        }
     }
 
     public String getSaveFileName() {
@@ -75,12 +80,14 @@ public class State {
         return randomDate;
     }
 
+    //функция добавления элемента, которая есть тут потому что появилась проблема с ебаным в жопу айдишником.
     public void addElement(StudyGroup studyGroup) {
         if (studyGroup.getId() != null) {
             if (studyGroup.getId() > lastId) {
                 lastId = studyGroup.getId();
             }
         } else {
+
             studyGroup.setId(generateId());
         }
         if (studyGroup.getCreationDate() == null) {

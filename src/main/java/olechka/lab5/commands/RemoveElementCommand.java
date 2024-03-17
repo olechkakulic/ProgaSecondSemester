@@ -29,6 +29,6 @@ public class RemoveElementCommand implements Command {
 
     @Override
     public void parse(Console console) {
-        id = console.nextInt();
+        id = console.getRemainingIntArgument();
     }
 }

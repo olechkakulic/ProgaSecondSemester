@@ -1,7 +1,7 @@
 package olechka.lab5;
 
 import olechka.lab5.commands.Command;
-import olechka.lab5.commands.SaveCommand;
+import olechka.lab5.interaction.ArgumentException;
 import olechka.lab5.interaction.Console;
 import olechka.lab5.interaction.InterationClosedException;
 import olechka.lab5.models.StudyGroup;
@@ -23,10 +23,12 @@ public class Main {
             System.err.println("не введен путь к файлу");
             System.exit(1);
         }
+
         String filename = args[0];
         State state = new State(filename);
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filename))) {
             if (bufferedReader.ready()) {
+//                Через JSONTokener мы считываем из reader-а объект JSONArray
                 JSONTokener tokener = new JSONTokener(bufferedReader);
                 JSONArray jsonArray = new JSONArray(tokener);
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -62,10 +64,15 @@ public class Main {
                 String commandName = console.next();
                 Command command = state.getCommandManager().createCommand(commandName);
                 if (command == null) {
-                    System.out.println("введена несуществующая команда " + commandName);
+                    System.out.println("Введена несуществующая команда/аргумент " + commandName);
                     continue;
                 }
-                command.parse(console);
+                try {
+                    command.parse(console);
+                } catch (ArgumentException exception) {
+                    System.out.println("Данная команда требует корректный аргумент. Подробнее смотри, используя, команду 'help'");
+                    continue;
+                }
                 Command.Result result = command.execute(state);
                 System.out.println(result.getMessage());
 
@@ -78,12 +85,12 @@ public class Main {
                 System.out.println("Была нажата комбинация клавиш ctrl+d. Совершен выход из программы.");
             }
 
-
-            SaveCommand saveCommand = new SaveCommand();
-            Command.Result result = saveCommand.execute(state);
-            if (result.isSuccess()) {
-                System.out.println("я сохранил тебе файл все пока");
-            }
+//
+//            SaveCommand saveCommand = new SaveCommand();
+//            Command.Result result = saveCommand.execute(state);
+//            if (result.isSuccess()) {
+//                System.out.println("я сохранил тебе файл все пока");
+//            }
         }
     }
 }

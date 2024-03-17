@@ -10,7 +10,7 @@ public class Person {
     @NonNull
     @HumanDescription(value = "имя", format = "непустая строка")
     private String name; //Поле не может быть null, Строка не может быть пустой
-    @HumanDescription(value = "дату рождения", format = "строка вида 00:00:00, значение может отсутствовать")
+    @HumanDescription(value = "дату рождения", format = "строка вида 00.00.00, значение может отсутствовать")
     private LocalDate birthday; //Поле может быть null
     @BiggerThan(0)
     @HumanDescription(value = "рост", format = "целое число > 0")

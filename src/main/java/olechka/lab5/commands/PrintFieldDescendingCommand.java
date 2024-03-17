@@ -22,7 +22,12 @@ public class PrintFieldDescendingCommand implements Command {
                 collection) {
             studentsCount.add(s.getStudentsCount());
         }
-        return Result.success("Значение поля studentsCount всех элементов в порядке убывания: " + studentsCount.toString());
+        if (!collection.isEmpty()) {
+            return Result.success("Значение поля studentsCount всех элементов в порядке убывания: " + studentsCount.toString());
+        } else {
+            return Result.success("Коллекция пуста, поэтому значение поля studentsCount всех элементов в порядке убывания: " + studentsCount.toString() + " - пустой массив. ");
+        }
+
     }
 
     @Override

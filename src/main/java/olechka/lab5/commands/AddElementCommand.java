@@ -18,6 +18,7 @@ public class AddElementCommand implements Command {
                 return Result.error("Вы пытались добавить groupAdmin с уже существующем passportId");
             }
         }
+
         state.addElement(studyGroup);
         state.notifyUpdate();
         return Result.success("Элемент с id: " + studyGroup.getId() + " успешно добавлен в коллекцию");

@@ -50,7 +50,7 @@ public class CommandManager {
         commands.put("execute_script", () -> new ExecuteScriptCommand());
         commands.put("remove_lower", () -> new RemoveLowerCommand());
         commands.put("add_if_min", () -> new AddIfMinCommand());
-        commands.put("print_field_descending", () -> new PrintFieldDescendingCommand());
+        commands.put("print_field_descending_students_count", () -> new PrintFieldDescendingCommand());
         commands.put("help", () -> new HelpCommand());
     }
 
@@ -58,20 +58,20 @@ public class CommandManager {
      * инициализатор - метод, предназначенный для инициализации поля helpMap.
      */ {
         helpMap.put("add", "добавить новый элемент в коллекцию");
-        helpMap.put("update", " {element} обновить значение элемента коллекции, id которого равен заданному");
+        helpMap.put("update", " {id (тип int)} {element} обновить значение элемента коллекции, id которого равен заданному");
         helpMap.put("clear", "очистить коллекцию");
         helpMap.put("info", "вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)");
-        helpMap.put("remove", "удалить элемент из коллекции по его id");
+        helpMap.put("remove ", "{id (тип int)} удалить элемент из коллекции по его id");
         helpMap.put("show", "вывести в стандартный поток вывода все элементы коллекции в строковом представлении");
         helpMap.put("save", "сохранить коллекцию в файл");
-        helpMap.put("filter_by_students_count", "вывести элементы, значение поля studentsCount которых равно заданному");
+        helpMap.put("filter_by_students_count", " {students_count (тип int)} вывести элементы, значение поля studentsCount которых равно заданному");
         helpMap.put("print_descending", "вывести элементы коллекции в порядке убывания");
         helpMap.put("exit", "завершить программу (без сохранения в файл)");
         helpMap.put("history", "вывести последние 14 команд (без их аргументов)");
-        helpMap.put("execute_script", " считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.");
+        helpMap.put("execute_script", " {file_name} считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.");
         helpMap.put("remove_lower", " {element} удалить из коллекции все элементы, меньшие, чем заданный");
         helpMap.put("add_if_min", " {element} добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции");
-        helpMap.put("print_field_descending", "вывести значения поля studentsCount все элементов в порядке убывания");
+        helpMap.put("print_field_descending_students_count", "вывести значения поля studentsCount все элементов в порядке убывания");
         helpMap.put("help", "вывести справку по доступным командам");
     }
 
@@ -93,6 +93,7 @@ public class CommandManager {
         }
         return supplier.get();
     }
+
 
     public boolean pushScriptExecution(String str) {
         return scriptSet.add(str);

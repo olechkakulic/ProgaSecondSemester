@@ -22,8 +22,11 @@ public class PrintDescendingCommand implements Command {
                 studyGroupList) {
             out += ObjectParser.printObject(s);
         }
-
-        return Result.success("Элементы коллекции в порядке убывания: " + out);
+        if (!collection.isEmpty()) {
+            return Result.success("Элементы коллекции в порядке убывания: " + out);
+        } else {
+            return Result.success("Коллекция пуста. К сожалению, выводить нечего. ");
+        }
     }
 
     @Override

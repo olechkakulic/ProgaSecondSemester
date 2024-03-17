@@ -2,6 +2,7 @@
 package olechka.lab5.commands;
 
 import olechka.lab5.State;
+import olechka.lab5.interaction.ArgumentException;
 import olechka.lab5.interaction.Console;
 
 import java.io.FileInputStream;
@@ -30,7 +31,11 @@ public class ExecuteScriptCommand implements Command {
                     out += "Неизвестная команда " + commandName;
                     return Result.error(out);
                 }
-                command.parse(console);
+                try {
+                    command.parse(console);
+                } catch (ArgumentException e) {
+                    return Result.error(out + "\nКоманда " + commandName + " имеет некорректный аргумент");
+                }
                 Result result = command.execute(state);
                 out += result.getMessage() + "\n";
                 if (!result.isSuccess()) {
@@ -48,7 +53,11 @@ public class ExecuteScriptCommand implements Command {
 
     @Override
     public void parse(Console console) {
-        fileName = console.next();
+        String fileName = console.nextLine().trim();
+        if (fileName.isEmpty()) {
+            throw new ArgumentException();
+        }
+        this.fileName = fileName;
     }
 
     public void setFileName(String fileName) {

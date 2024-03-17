@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface BiggerThan {
     //    это называется параметром аннотации. Параметр описывается, как функция - с двумя скобками
-// В качестве параметров могут быть использованы только примитивы, String, Enum.
+// В качестве параметров могут быть использованы только примитивы,а также String, Enum.
 //    то есть нельзя написать List<String> args(); — ошибка.
     long value();
 }

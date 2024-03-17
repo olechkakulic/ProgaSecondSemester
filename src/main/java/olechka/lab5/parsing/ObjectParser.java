@@ -27,7 +27,6 @@ public class ObjectParser {
     //    так как нам не очень известен тип Class<>, (тут в <> может быть что угодно: и Integer, и String и т.д.), поэтому
     //    мы пишем ?
     //    каждая лямбда функция является объектом функционального интерфейса
-
     /**
      * Статическое поле класса, в виде HashMap, в котором в качестве ключа хранятся объекты класса Class,
      * в качестве значения - объект функционального интерфейса.
@@ -40,7 +39,7 @@ public class ObjectParser {
      */
     static {
         factories.put(String.class, String::valueOf);
-        factories.put(Double.class, (string) -> Double.parseDouble(string));
+        factories.put(Double.class, (string) -> Double.parseDouble(string.replace(",", ".")));
         factories.put(Integer.class, Integer::parseInt);
         factories.put(Float.class, Float::parseFloat);
         factories.put(Byte.class, Byte::parseByte);
@@ -49,7 +48,7 @@ public class ObjectParser {
         factories.put(Long.class, Long::parseLong);
         factories.put(Character.class, (string) -> string.charAt(0));
 
-        factories.put(double.class, Double::parseDouble);
+        factories.put(double.class, (string) -> Double.parseDouble(string.replace(",", ".")));
         factories.put(int.class, Integer::parseInt);
         factories.put(float.class, Float::parseFloat);
         factories.put(byte.class, Byte::parseByte);
@@ -126,6 +125,7 @@ public class ObjectParser {
             }
             //            получаем человекоподобный вид названия полей класса
             String humanName = getHumanFieldName(field);
+//            получаем формат, который увидит пользователь при вводе
             String format = getHumanFormat(field);
             if (format.isEmpty()) {
                 console.getOut().print("Введите " + humanName + ": ");
@@ -133,7 +133,7 @@ public class ObjectParser {
                 console.getOut().print("Введите " + humanName + " (" + format + ") " + ": ");
             }
             boolean fieldAllowNull = !field.isAnnotationPresent(NonNull.class);
-            //            для приватных полей все разрешаем) как же похуй)
+            //            для приватных полей все разрешаем.
             field.setAccessible(true);
             //            нам надо получить тип полей. Любой класс наследуется от Object,
             //            поэтому пишем именно Object value
@@ -160,7 +160,7 @@ public class ObjectParser {
     }
 
     /**
-     * Функция для того шобы печатать объект на экран
+     * Функция для того шобы печатать объект на экран. Используется для команды show
      *
      * @param object
      * @return out - строка, которая содержит все поля объекта и их значения
@@ -180,6 +180,7 @@ public class ObjectParser {
             String humanName = getHumanFieldName(field);
             try {
                 field.setAccessible(true);
+//                в функцию get необходимо передавать именно объект. в цикле будут по очереди заполняться value
                 Object value = field.get(object);
                 out += humanName + ": " + printObject(value) + "\n";
             } catch (ReflectiveOperationException e) {
@@ -224,10 +225,11 @@ public class ObjectParser {
      */
     private static <T> T createEnumInteractive(Class<T> clazz, Console console) {
         String str = console.nextLine();
-        if (str.isEmpty()) {
+        String upperCase = str.toUpperCase();
+        if (upperCase.isEmpty()) {
             return null;
         }
-        return CommonHelpers.createEnumElement(clazz, str);
+        return CommonHelpers.createEnumElement(clazz, upperCase);
     }
 
     /**

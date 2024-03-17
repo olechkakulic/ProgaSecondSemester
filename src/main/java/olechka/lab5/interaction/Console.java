@@ -43,13 +43,17 @@ public class Console {
         }
     }
 
-    public int nextInt() {
+    public int getRemainingIntArgument() {
         try {
-            return scanner.nextInt();
-        } catch (NoSuchElementException e) {
-            isClosed = true;
-            throw new InterationClosedException();
+            String line = nextLine();
+            return Integer.parseInt(line.trim());
+        } catch (NumberFormatException e) {
+            throw new ArgumentException();
         }
+    }
+
+    public boolean hasNext() {
+        return scanner.hasNext();
     }
 
     public boolean isInputClosed() {

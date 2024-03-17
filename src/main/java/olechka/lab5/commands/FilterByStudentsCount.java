@@ -22,15 +22,18 @@ public class FilterByStudentsCount implements Command {
                 out += ObjectParser.printObject(s);
             }
         }
-        if (out.isEmpty()) {
+        if (collection.isEmpty()) {
+            return Result.success("Коллекция пуста. Вам не с чем сравнивать поле studentsCount");
+        } else if (out.isEmpty()) {
             return Result.error("Нет элемента с таким studentCount");
+        } else {
+            return Result.success("Элементы, значения поля studentsCount которых равно заданному: " + out);
         }
-        return Result.success("Элементы, значения поля studentsCount которых равно заданному: " + out);
     }
 
     @Override
     public void parse(Console console) {
-        studentCount = console.nextInt();
+        studentCount = console.getRemainingIntArgument();
     }
 }
 
