@@ -1,0 +1,16 @@
+update 5
+est
+123
+456
+777
+12
+EVENING_CLASSES
+FIFTH
+да
+olya
+
+173
+5
+345467
+history
+execute_script input4.txt
