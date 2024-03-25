@@ -94,7 +94,6 @@ public class CommandManager {
         return supplier.get();
     }
 
-
     public boolean pushScriptExecution(String str) {
         return scriptSet.add(str);
     }

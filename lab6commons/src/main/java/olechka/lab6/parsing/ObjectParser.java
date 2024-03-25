@@ -1,15 +1,14 @@
-package olechka.lab5.parsing;
+package olechka.lab6.parsing;
 
 
-import olechka.lab5.interaction.Console;
-import olechka.lab5.interaction.InterationClosedException;
-import olechka.lab5.parsing.annotations.*;
+import olechka.lab6.interaction.Console;
+import olechka.lab6.interaction.InterationClosedException;
+import olechka.lab6.parsing.annotations.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.util.Arrays;
@@ -40,7 +39,6 @@ public class ObjectParser {
      */
     static {
         factories.put(String.class, String::valueOf);
-        factories.put(String.class, string -> String.valueOf(string));
         factories.put(Double.class, (string) -> Double.parseDouble(string.replace(",", ".")));
         factories.put(Integer.class, Integer::parseInt);
         factories.put(Float.class, Float::parseFloat);
@@ -67,10 +65,6 @@ public class ObjectParser {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
             return LocalDateTime.parse(string, formatter);
         });
-        factories.put(ZonedDateTime.class, (string -> {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
-            return ZonedDateTime.parse(string, formatter);
-        }));
     }
 
     /**
