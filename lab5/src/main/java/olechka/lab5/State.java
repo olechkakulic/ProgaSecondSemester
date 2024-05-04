@@ -16,6 +16,7 @@ public class State {
     private final Collection<StudyGroup> collection;
     private final Date initializationDate;
     private final CommandManager commandManager;
+
     private boolean isExitRequested;
 
     private String saveFileName;

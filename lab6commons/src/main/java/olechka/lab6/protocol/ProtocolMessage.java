@@ -3,11 +3,13 @@ package olechka.lab6.protocol;
 import java.io.*;
 import java.util.UUID;
 
-// МОДУЛЬ ЧТЕНИЯ ЗАПРОСА
+// МОДУЛЬ ЧТЕНИЯ ЗАПРОСА !!DTO!! - ВИД удобный для передачи
+//для любого запроса надо знать айди клиента чтобы его обработать.
 //создание параметризированного класса.
 //временный объект который существует только для обмена данных, а в стейте у нас хранится состояние клиента
 public class ProtocolMessage<T> {
     private T object;
+    private int requestOrder;
 //идентификатор чего я хочу. в нем много байт. он может гарантировать уникальность
 //    для того, чтобы отличать клиентов друг от друга.
 //    могли бы опираться на порты и айпи адреса, но это ненадежно, потому что айпи например
@@ -17,7 +19,7 @@ public class ProtocolMessage<T> {
 //    tcp работает с буфером отправки и буфера принятия.
 //    вторая причина. если клиент отключился, а потом заново подключился, то мы сможем его recognised.
 
-    //    тут 16 байт
+    //   идентификатор 16-ти байт.  тут 16 байт лол. генерируется рандомно.
     private UUID clientId;
     private boolean isExitRequested;
 
@@ -25,10 +27,11 @@ public class ProtocolMessage<T> {
 
     }
 
-    public ProtocolMessage(T object, UUID clientId, boolean isExitRequested) {
+    public ProtocolMessage(T object, UUID clientId, boolean isExitRequested, int requestOrder) {
         this.object = object;
         this.clientId = clientId;
         this.isExitRequested = isExitRequested;
+        this.requestOrder = requestOrder;
     }
 
     //    декодировать
@@ -45,6 +48,7 @@ public class ProtocolMessage<T> {
 //        читаем декодированный объект и записываем резы
         object = (T) objectInputStream.readObject();
         isExitRequested = objectInputStream.readBoolean();
+        requestOrder = objectInputStream.readInt();
     }
 
     //        закодировать
@@ -59,6 +63,7 @@ public class ProtocolMessage<T> {
             objectOutputStream.writeLong(clientId.getLeastSignificantBits());
             objectOutputStream.writeObject(object);
             objectOutputStream.writeBoolean(isExitRequested);
+            objectOutputStream.writeInt(requestOrder);
         }
 //        вернется закодированный массив байтов
         return byteArrayOutputStream.toByteArray();
@@ -66,6 +71,10 @@ public class ProtocolMessage<T> {
 
     public UUID getClientId() {
         return clientId;
+    }
+
+    public int getRequestOrder() {
+        return requestOrder;
     }
 
     public T getObject() {

@@ -6,7 +6,6 @@ import olechka.lab6.interaction.Console;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-
 //вывести справку по доступным командам
 @CommandDescription("вывести справку по доступным командам")
 public class HelpCommand implements Command {

@@ -10,7 +10,7 @@ import java.util.Objects;
 
 // вывести элементы значения поля studentsCount которых равно заданному
 public class FilterByStudentsCount implements Command {
-    public Integer studentCount;
+    public Long studentCount;
 
     @Override
     public Result execute(State state) {
@@ -33,7 +33,7 @@ public class FilterByStudentsCount implements Command {
 
     @Override
     public void parse(Console console) {
-        studentCount = console.getRemainingIntArgument();
+        studentCount = console.getRemainingLongArgument();
     }
 }
 

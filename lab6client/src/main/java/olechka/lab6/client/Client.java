@@ -22,11 +22,11 @@ public class Client implements AutoCloseable {
     private final UUID clientId;
     private InetSocketAddress serverAddress;
     private final Selector selector;
-
+    private int requestOrder;
     public Client(String ip) throws IOException {
 //        создаем канал
         channel = DatagramChannel.open();
-        clientId = UUID.randomUUID();
+        clientId = new UUID(0, 1);
 //        клиенту чтобы отправлять данные нужно знать точный адрес. а вот для сервера мы сказали, что мо
         serverAddress = new InetSocketAddress(ip, 2226);
 //        создаст селектор конкретно для моей ОС
@@ -60,6 +60,7 @@ public class Client implements AutoCloseable {
                 continue;
             }
             try {
+//                после выполнения каждой команды будет увеличиваться номер следующего запроса.
                 command.parse(console);
             } catch (ArgumentException exception) {
                 System.out.println("Данная команда требует корректный аргумент. Подробнее смотри, используя, команду 'help'");
@@ -74,7 +75,11 @@ public class Client implements AutoCloseable {
                 buffer.clear();
 //                сейчас блокирующий режим, то есть recieve будет ждать если очередь пуста
 //                с помощью кода ниже оптимизировали неблокирующий режим
-                selector.select();
+                int selectedCount = selector.select(5000);
+                if (selectedCount <= 0) {
+                    System.out.println("Кажется, сервер не отвечает :( Вы можете подождать еще немного или прервать выполнение клиентской программы.");
+                    sendCommand(command);
+                }
                 address = channel.receive(buffer);
             }
 //декодинг данных.
@@ -89,14 +94,14 @@ public class Client implements AutoCloseable {
 
 //                Command.Result result = command.execute(state);
 //                System.out.println(result.getMessage());
-
+            requestOrder++;
         }
         System.out.println("Спасибо за использование. Обязательно подпишитесь на мой тгк https://t.me/krinzh_umer");
     }
 
     private void sendCommand(Command command) throws IOException {
 //        потому что мы с сервера только отправляем это сообщение но не обрабатываем
-        ProtocolMessage<Command> message = new ProtocolMessage<>(command, clientId, false);
+        ProtocolMessage<Command> message = new ProtocolMessage<>(command, clientId, false, requestOrder);
         byte[] data = message.encode();
         channel.send(ByteBuffer.wrap(data), serverAddress);
     }

@@ -16,13 +16,10 @@ public class PrintFieldDescendingCommand implements Command {
         Collection<StudyGroup> collection = state.getCollection();
         List<StudyGroup> studyGroupList = new ArrayList<>(collection);
         studyGroupList.sort((o1, o2) -> {
-            return Long.compare(o1.getStudentsCount(), o2.getStudentsCount());
-        });
-        List<Long> studentsCount = new ArrayList<>();
-        for (StudyGroup s :
-                collection) {
-            studentsCount.add(s.getStudentsCount());
-        }
+                    return Long.compare(o1.getStudentsCount(), o2.getStudentsCount());
+                }
+        );
+        List<Long> studentsCount = studyGroupList.stream().map(s -> s.getStudentsCount()).toList();
         if (!collection.isEmpty()) {
             return Result.success("Значение поля studentsCount всех элементов в порядке убывания: " + studentsCount.toString());
         } else {

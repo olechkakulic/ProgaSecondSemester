@@ -1,6 +1,5 @@
 package olechka.lab6;
 
-import olechka.lab6.models.Person;
 import olechka.lab6.models.StudyGroup;
 
 import java.time.LocalDate;
@@ -9,6 +8,7 @@ import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 //содержит внутри себя объекты имеющие какие-то состояния
@@ -97,14 +97,17 @@ public class State {
     }
 
     public boolean hasPersonWithPassportId(String passportId) {
-        for (StudyGroup element : collection) {
-            Person elementGroupAdmin = element.getGroupAdmin();
-            if (elementGroupAdmin != null) {
-                if (elementGroupAdmin.getPassportID() != null && elementGroupAdmin.getPassportID().equals(passportId)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return collection.stream().map(s -> s.getGroupAdmin()).anyMatch(g -> g != null && Objects.equals(g.getPassportID(), passportId));
+//        for (StudyGroup element : collection) {
+//            Person elementGroupAdmin = element.getGroupAdmin();
+//            if (elementGroupAdmin != null) {
+//                if (elementGroupAdmin.getPassportID() != null && elementGroupAdmin.getPassportID().equals(passportId)) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
     }
+
+
 }

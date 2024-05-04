@@ -52,6 +52,15 @@ public class Console {
         }
     }
 
+    public Long getRemainingLongArgument() {
+        try {
+            String line = nextLine();
+            return Long.parseLong(line.trim());
+        } catch (NumberFormatException e) {
+            throw new ArgumentException();
+        }
+    }
+
     public boolean hasNext() {
         return scanner.hasNext();
     }

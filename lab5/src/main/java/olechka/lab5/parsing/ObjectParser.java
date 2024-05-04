@@ -40,7 +40,7 @@ public class ObjectParser {
      */
     static {
         factories.put(String.class, String::valueOf);
-        factories.put(String.class, string -> String.valueOf(string));
+        factories.put(String.class, (string) -> String.valueOf(string));
         factories.put(Double.class, (string) -> Double.parseDouble(string.replace(",", ".")));
         factories.put(Integer.class, Integer::parseInt);
         factories.put(Float.class, Float::parseFloat);

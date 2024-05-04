@@ -5,7 +5,6 @@ import olechka.lab6.interaction.Console;
 import olechka.lab6.models.StudyGroup;
 import olechka.lab6.parsing.ObjectParser;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,14 +15,14 @@ public class RemoveLowerCommand implements Command {
 
     @Override
     public Result execute(State state) {
-        List<StudyGroup> lowerIdElement = new ArrayList<>();
         Collection<StudyGroup> collection = state.getCollection();
-        for (StudyGroup s :
-                collection) {
-            if (studyGroup.compareTo(s) > 0) {
-                lowerIdElement.add(s);
-            }
-        }
+        List<StudyGroup> lowerIdElement = collection.stream().filter(s -> studyGroup.compareTo(s) > 0).toList();
+//        for (StudyGroup s :
+//                collection) {
+//            if (studyGroup.compareTo(s) > 0) {
+//                lowerIdElement.add(s);
+//            }
+//        }
         if (lowerIdElement.isEmpty()) {
             return Result.error("Вам нечего удалять из коллекции блин:) ");
         } else {

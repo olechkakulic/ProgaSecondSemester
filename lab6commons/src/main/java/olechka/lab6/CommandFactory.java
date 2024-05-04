@@ -21,7 +21,7 @@ public class CommandFactory {
         commands.put("info", InfoCommand.class);
         commands.put("remove", RemoveElementCommand.class);
         commands.put("show", ShowCommand.class);
-        commands.put("save", SaveCommand.class);
+//        commands.put("save", SaveCommand.class);
         commands.put("filter_by_students_count", FilterByStudentsCount.class);
         commands.put("print_descending", PrintDescendingCommand.class);
         commands.put("exit", ExitCommand.class);
