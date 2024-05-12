@@ -15,6 +15,9 @@
         <module>lab6commons</module>
         <module>lab6server</module>
         <module>lab6client</module>
+        <module>lab7commons</module>
+        <module>lab7server</module>
+        <module>lab7client</module>
     </modules>
 
     <properties>
