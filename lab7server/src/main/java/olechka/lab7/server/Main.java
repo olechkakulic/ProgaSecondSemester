@@ -20,6 +20,7 @@ public class Main {
                 .buildSessionFactory()) {
             try (Server server = new Server(sessionFactory)) {
                 server.run();
+                server.waitForever();
             }
         }
     }
