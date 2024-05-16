@@ -5,7 +5,7 @@ import olechka.lab7.interaction.Console;
 import olechka.lab7.models.StudyGroup;
 import olechka.lab7.parsing.ObjectParser;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -16,7 +16,7 @@ public class FilterByStudentsCount implements Command {
 
     @Override
     public Result execute(State state) {
-        List<StudyGroup> collection = (List<StudyGroup>) state.getCollection();
+        Collection<StudyGroup> collection = state.getCollection();
         String out = collection.stream().filter(element -> Objects.equals(element.getStudentsCount(), studentCount))
                 .map((s) -> ObjectParser.printObject(s))
                 .collect(Collectors.joining());

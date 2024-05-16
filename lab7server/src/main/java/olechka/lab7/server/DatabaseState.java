@@ -27,6 +27,7 @@ public class DatabaseState extends State {
             session.persist(studyGroup);
             session.flush();
         });
+//   Обновлять состояние коллекции в памяти только при успешном добавлении объекта в БД
         super.addElement(studyGroup);
     }
 

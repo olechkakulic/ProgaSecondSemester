@@ -61,8 +61,10 @@ public class State {
     }
 
 
-    public boolean isExitRequested() {
-        return isExitRequested;
+    public boolean resetExitRequested() {
+        boolean result = isExitRequested;
+        isExitRequested = false;
+        return result;
     }
 
     public void setExitRequested() {

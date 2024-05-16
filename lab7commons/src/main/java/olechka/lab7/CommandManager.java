@@ -1,6 +1,7 @@
 package olechka.lab7;
 
 
+import lombok.Getter;
 import olechka.lab7.commands.Command;
 
 import java.util.*;
@@ -10,11 +11,19 @@ import java.util.*;
 
 public class CommandManager {
 
+    /**
+     * -- GETTER --
+     * Функция-getter для получения объекта history типа List<String>
+     *
+     * @return history
+     */
+    @Getter
     private final List<String> history = new LinkedList<>();
 
     //    здесь хранятся скрипты которые щас выполняются
     private final Set<String> scriptSet = new HashSet<>();
     //теперь тут будет создаваться commandFactory
+    @Getter
     private final CommandFactory commandFactory = new CommandFactory();
 
 
@@ -40,16 +49,4 @@ public class CommandManager {
         scriptSet.remove(str);
     }
 
-    /**
-     * Функция-getter для получения объекта history типа List<String>
-     *
-     * @return history
-     */
-    public List<String> getHistory() {
-        return history;
-    }
-
-    public CommandFactory getCommandFactory() {
-        return commandFactory;
-    }
 }

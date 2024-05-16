@@ -46,6 +46,7 @@ public class Server implements AutoCloseable {
         sessionManager = new SessionManager();
         // добавили в коллекцию все элементы с бд
 
+//        создание фиксированного числа потоков, а конкретно в количество 4х штук.
         executorService = Executors.newFixedThreadPool(4);
     }
 
@@ -58,8 +59,8 @@ public class Server implements AutoCloseable {
         // из сокета можем читать данные, читаем запрос, который придет
         // socket.bind(new InetSocketAddress("0.0.0.0", 2666));
         logger.info("Сервер успешно запущен. Друзья, можете подключаться по адресу {}", socket.getLocalSocketAddress());
-
         for (int i = 0; i < 4; i++) {
+//            вызов FixedPool для чтения запроса
             executorService.submit(() -> {
                 while (true) {
                     // на этом этапе получаем из буфера обмена данные и кладем их в наш пакет
@@ -93,15 +94,21 @@ public class Server implements AutoCloseable {
         // выполнение. получаем result.
 
         // boolean result1 = sessionManager.getClientSession().canExecuteCommandOfOrder(message.getRequestOrder());
+//        создание потока для обработки команд
         Thread thread = new Thread(() -> {
             boolean result = sessionManager.getClientSession(socketAddress).canExecuteCommandOfOrder(message.getRequestOrder());
             if (result) {
                 Command command = message.getObject();
                 Command.Result commandResult;
+                boolean isExitRequested;
+
+                User user;
                 if (command instanceof RegisterCommand) {
-                    userManager.register(message.getLogin(), message.getPassword());
+                    user = userManager.register(message.getLogin(), message.getPassword());
+                } else {
+                    user = userManager.checkUser(message.getLogin(), message.getPassword());
                 }
-                User user = userManager.checkUser(message.getLogin(), message.getPassword());
+
                 if (user != null) {
                     synchronized (state) {
                         state.setCurrentUserId(user.getId());
@@ -109,19 +116,26 @@ public class Server implements AutoCloseable {
                         commandResult = command.execute(state);
                         // добавили в историю
                         state.getCommandManager().addHistoryCommand(message.getObject());
+                        isExitRequested = state.resetExitRequested();
                     }
                 } else {
-                    commandResult = Command.Result.error("У вас неправильный логин или пароль.");
+                    if (command instanceof RegisterCommand) {
+                        commandResult = Command.Result.error("Регистрация невозможна: выбранный логин недоступен или уже занят.");
+                    } else {
+                        commandResult = Command.Result.error("У вас неправильный логин или пароль.");
+                    }
+                    isExitRequested = false;
                 }
 
                 // статус того, был ли совершен выход из программы
-                ProtocolMessage<Command.Result> messageResult = new ProtocolMessage<>(commandResult, message.getLogin(), message.getPassword(), state.isExitRequested(), message.getRequestOrder());
+                ProtocolMessage<Command.Result> messageResult = new ProtocolMessage<>(commandResult, message.getLogin(), message.getPassword(), isExitRequested, message.getRequestOrder());
                 sendResponse(messageResult, socketAddress);
             }
 
         });
         thread.start();
     }
+// создание потока для отправки ответа
 
     private void sendResponse(ProtocolMessage<Command.Result> message, SocketAddress socketAddress) {
         Thread thread = new Thread(() -> {

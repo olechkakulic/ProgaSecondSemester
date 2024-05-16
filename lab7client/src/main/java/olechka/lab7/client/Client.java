@@ -83,7 +83,7 @@ public class Client implements AutoCloseable {
         while (true) {
             try {
                 console.getOut().println("Есть ли у вас учетная запись?");
-                Boolean answer = ObjectParser.createInteractive(boolean.class, console, false);
+                Boolean answer = ObjectParser.createInteractive(Boolean.class, console, false);
                 Command.Result commandResult;
                 if (answer != null && answer) {
                     console.getOut().println("Введите логин: ");
@@ -104,7 +104,7 @@ public class Client implements AutoCloseable {
                 }
 
             } catch (IllegalArgumentException e) {
-                console.getOut().println("отвечай нормально сука");
+                console.getOut().println("Кажется, я вас не понял. Ответьте, пожалуйста, да или нет.");
             }
         }
 

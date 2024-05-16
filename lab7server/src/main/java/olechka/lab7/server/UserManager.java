@@ -3,6 +3,8 @@ package olechka.lab7.server;
 import olechka.lab7.server.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -43,14 +45,21 @@ public class UserManager {
 
     }
 
-    public void register(String login, String password) {
-        sessionFactory.inTransaction(session -> {
+    public User register(String login, String password) {
+        if (login.isEmpty()) {
+            return null;
+        }
+        try (Session s = sessionFactory.openSession()) {
+            Transaction tx = s.beginTransaction();
             User user = new User();
             user.setLogin(login);
             user.setPassword(hashPassword(password));
-            session.persist(user);
-            session.flush();
-        });
+            s.persist(user);
+            tx.commit();
+            return user;
+        } catch (ConstraintViolationException e) {
+            return null;
+        }
     }
 
     private String hashPassword(String password) {

@@ -19,6 +19,7 @@ public class StudyGroup implements Comparable<StudyGroup>, Serializable {
     @Getter
     @Setter
     @Id
+//    Для генерации поля id использовать средства базы данных (sequence).
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @IgnoreInput
     @NonNull
