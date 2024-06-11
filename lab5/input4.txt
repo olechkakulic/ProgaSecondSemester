@@ -11,6 +11,6 @@ olya
 
 173
 5
-345467
+5678
 history
 execute_script input4.txt

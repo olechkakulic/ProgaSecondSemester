@@ -10,7 +10,7 @@
     </parent>
 
 
-    <artifactId>lab7server</artifactId>
+    <artifactId>lab8server</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>olechka.labs</groupId>
-            <artifactId>lab7commons</artifactId>
+            <artifactId>lab8commons</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

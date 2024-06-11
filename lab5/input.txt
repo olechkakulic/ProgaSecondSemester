@@ -11,8 +11,6 @@ olya
 
 173
 5
-passport number is removed from this file due to personal data removal request
-execute_script input1.txt
-print_field_descending
+6
+print_descending
 execute_script input.txt
-execute_script input1.txt

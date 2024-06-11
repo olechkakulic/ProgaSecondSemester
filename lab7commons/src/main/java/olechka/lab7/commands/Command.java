@@ -1,5 +1,6 @@
 package olechka.lab7.commands;
 
+import lombok.Getter;
 import olechka.lab7.State;
 import olechka.lab7.interaction.Console;
 
@@ -9,6 +10,7 @@ public interface Command extends Serializable {
     //    статический вложенный класс, который не будет связан с объектами внешних классов после создания
     static class Result implements Serializable {
         private final boolean isSuccess;
+        @Getter
         private final String message;
 
         public Result(boolean isSuccess, String message) {
@@ -18,10 +20,6 @@ public interface Command extends Serializable {
 
         public boolean isSuccess() {
             return isSuccess;
-        }
-
-        public String getMessage() {
-            return message;
         }
 
 

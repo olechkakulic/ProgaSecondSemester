@@ -9,45 +9,19 @@
         <version>1.0</version>
     </parent>
 
-
-    <artifactId>lab7server</artifactId>
+    <artifactId>lab8client</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <!--клиент и сервер оба полагаются на commons. про друг друга они не знают-->
+
     <dependencies>
         <dependency>
             <groupId>olechka.labs</groupId>
-            <artifactId>lab7commons</artifactId>
+            <artifactId>lab8commons</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>6.4.4.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.7.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-hikaricp</artifactId>
-            <version>6.4.4.Final</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -56,6 +30,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <!--            этот плагин положит зависимости в либ-->
@@ -87,7 +62,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>olechka.lab8.server.Main</mainClass>
+                            <mainClass>olechka.lab8.client.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -97,28 +72,10 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>olechka.lab8.server.Main</mainClass>
+                    <mainClass>olechka.lab8.client.Main</mainClass>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.18.20.0</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>delombok</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src\main\resources</directory>
-            </resource>
-        </resources>
     </build>
 
 </project>
